@@ -1,4 +1,54 @@
----
-title: 'Create Plant'
-openapi: 'POST /plants'
----
+# Block
+
+Blocks represent group allotments or special rate plans available for booking. They typically contain start/end dates, inventory information, and conditions for reservations.
+
+## The Block Object
+
+| Field                           | Type      | Description                                                       |
+| ------------------------------- | --------- | ----------------------------------------------------------------- |
+| `property_id`                   | int       | The ID of the property this block belongs to.                     |
+| `block_id`                      | string    | Unique identifier for the block (maps to PMS ‘BLOCK\_ID’).        |
+| `code`                          | string    | A code that identifies the block.                                 |
+| `id`                            | string    | The unique Hapi ID for the block.                                 |
+| `notification_type`             | string    | Notification type (legacy, e.g., `DELTA`, `OVERLAY`, deprecated). |
+| `name`                          | string    | The block name.                                                   |
+| `type`                          | string    | Block type (e.g., `allotment`, `group`).                          |
+| `block_inventory_type`          | string    | Inventory type (`ELASTIC`, `NON_ELASTIC`, `SELL_LIMIT`).          |
+| `start_date`                    | date      | Start date (ISO 8601).                                            |
+| `end_date`                      | date      | End date (ISO 8601).                                              |
+| `start_shoulder_date`           | date      | Shoulder start date (ISO 8601), optional.                         |
+| `end_shoulder_date`             | date      | Shoulder end date (ISO 8601), optional.                           |
+| `absolute_cutoff_date`          | date      | Date when unpicked rooms are released (ISO 8601).                 |
+| `release_days_before_stay_date` | int       | Dynamic cutoff (days before start date rooms are released).       |
+| `status`                        | string    | Current status of the block.                                      |
+| `created_date_time`             | timestamp | When the block was created (ISO 8601).                            |
+| `created_by`                    | string    | User or system that created the block.                            |
+| `last_modified_date_time`       | timestamp | When the block was last modified (ISO 8601).                      |
+| `last_modified_by`              | string    | User or system that last modified the block.                      |
+| `guarantee_code`                | string    | Indicates how the block is guaranteed.                            |
+| `reservation_pick_up_method`    | string    | How individual reservations are booked against the block.         |
+| `currency_code`                 | string    | ISO 4217 currency code for monetary values.                       |
+| `payment_method_code`           | string    | Payment method for the block.                                     |
+
+*(Adjust fields as needed based on your final schema.)*
+
+***
+
+## Endpoints
+
+### List Blocks
+
+Retrieve a list of blocks with optional filtering and pagination.
+
+**HTTP Request:**
+**Query Parameters:**
+| Parameter | Type   | Description                                 |
+|-----------|--------|---------------------------------------------|
+| `status`  | string | Filter by block status (e.g., `ACTIVE`).    |
+| `limit`   | int    | Records per page (default: 20).             |
+| `cursor`  | string | Pagination cursor for next page of results. |
+
+**Example:**
+```bash
+curl "https://api.yourpms.com/v1/blocks?status=ACTIVE&limit=10" \
+  -H "Authorization: Bearer YOUR_API_KEY"
