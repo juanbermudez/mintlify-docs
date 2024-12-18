@@ -50,7 +50,7 @@
     {
       "name": "API Reference",
       "openapi": "/path/to/openapi.json",
-      "url": "api-reference",
+      "url": "api-reference-2",
       "icon": "square-terminal"
     }
   ],
